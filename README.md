@@ -1,4 +1,4 @@
-# Bot Performance Monitor
+# Botscope v2 Bot Performance Monitor
 
 Bot Performance Monitor is a web-based tool designed to monitor the availability and uptime of specified URLs. Built using the Koa framework and axios library, this tool periodically checks the status of URLs, tracks their uptime, and responds to their availability.
 
