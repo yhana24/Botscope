@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  	<link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <style>
+    :root {
+    --primary-color: #282c34;
+    --secondary-color: #61dafb;
+    --white-color: #f8f8f2;
+    --bg-color: #282c34;
+    --error-color: #e06c75;
+    --success-color: #98c379;
+}
+
+    body {
+      font-family: 'Orbitron', sans-serif;
+      margin: 0;
+      padding: 0;
+      color: var(--white-color);
+    }
+    
+    #particles-js {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -1; 
+      width: 100%;
+      height: 100%;
+      background-color: var(--bg-color);
+      
+    }
+
+    .bs-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      background-color: var(--primary-color);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .bs-title {
+      font-size: 24px;
+      font-weight: bold;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .bs-title span {
+      font-size: 14px;
+      color: var(--secondary-color);
+    }
+
+      .bs-logo img {
+    width: 50px; 
+    height: 50px; 
+  }
+    
+    .add-url-button {
+      background-color: var(--primary-color);
+      color: var(--white-color);
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    .main {
+      padding: 20px;
+    }
+
+    .url-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      border: 1px solid var(--secondary-color);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .url-table th,
+    .url-table td {
+      padding: 15px;
+      text-align: left;
+      border-bottom: 1px solid var(--secondary-color);
+    }
+
+    .url-table th {
+      background-color: var(--primary-color);
+      color: var(--white-color);
+      font-weight: bold;
+    }
+
+    .status-ok i {
+      color: var(--success-color);
+    }
+
+    .status-error i {
+      color: var(--error-color);
+    }
+
+    .add-url-fab {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: var(--secondary-color);
+      color: var(--white-color);
+      border: none;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      font-size: 24px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      align-items: center;
+      justify-content: center;
+      overflow-y: auto;
+    }
+    
+    .modal-content {
+      background-color: var(--primary-color);
+      width: 80%; 
+      max-width: 400px; 
+      padding: 20px;
+      border-radius: 5px;
+      position: relative;
+    }
+
+    .close {
+      color: var(--white-color);
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    label {
+      margin-top: 10px;
+    }
+
+    input {
+      padding: 5px;
+      margin-top: 5px;
+    }
+
+    button {
+      background-color: var(--secondary-color);
+      color: var(--white-color);
+      border: none;
+      padding: 8px;
+      margin-top: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: var(--success-color);
+    }
+
+    .modal-message {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  font-size: 16px;
+}
+
+      #modal-message.success {
+    background-color: var(--success-color);
+    color: var(--primary-color);
+  }
+
+  #modal-message.error {
+    background-color: var(--error-color);
+    color: var(--primary-color);
+  }
+
+    .modal-buttons {
+      display: flex;
+      gap: 10px;
+    }
+
+    .modal-ok {
+      background-color: var(--success-color);
+    }
+
+    .modal-error {
+      background-color: var(--error-color);
+    }
+
+    .modal-close {
+      background-color: var(--secondary-color);
+    }
+  </style>
+  <title>Botscope Bot Performance Monitoring</title>
+</head>
+<body>
+	<div id="particles-js"></div>
+<header class="bs-header">
+    <div class="bs-title">
+      Botscope v2
+      <span>by: HexClan</span>
+    </div>
+    <div class="bs-logo">
+      <img src="https://i.ibb.co/fvb51Nc/IMG-20230826-021447-803-transformed.png" alt="HexClan">
+    </div>
+  </header>
+  <main>
+    <table class="url-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Status</th>
+          <th>Last Checked</th>
+          <th>Uptime</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% urls.forEach(function(url) { %>
+          <tr>
+            <td><%= url.name %></td>
+            <% if (url.status === 200) { %>
+              <td class="status-ok"><i class="fa fa-check-circle"></i> UP</td>
+            <% } else { %>
+              <td class="status-error"><i class="fa fa-exclamation-circle"></i> DOWN</td>
+            <% } %>
+            <td><%= url.lastChecked %></td>
+            <td><%= url.uptime %></td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  </main>
+  <div id="addUrlModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div>Add URL</div>
+        <span class="close">&times;</span>
+      </div>
+      <form action="/api/ping" method="GET" id="addUrlForm">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+        <label for="url">URL:</label>
+        <input type="url" id="url" name="url" required>
+        <div class="modal-message" id="modal-message"></div>
+        <div class="modal-buttons">
+          <button type="submit" class="modal-ok">Monitor</button>
+          <button type="button" class="modal-close">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <button id="addUrlButton" class="add-url-fab">+</button>
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+  <script>
+    const addUrlButton = document.getElementById('addUrlButton');
+    const addUrlModal = document.getElementById('addUrlModal');
+    const closeModal = document.querySelector('.close');
+    const modalOkButton = document.querySelector('.modal-ok');
+    const modalCloseButton = document.querySelector('.modal-close');
+    const modalMessage = document.getElementById('modal-message');
+
+    addUrlButton.addEventListener('click', () => {
+      addUrlModal.style.display = 'flex';
+      modalMessage.textContent = '';
+    });
+
+    closeModal.addEventListener('click', () => {
+      addUrlModal.style.display = 'none';
+    });
+
+    window.addEventListener('click', (event) => {
+      if (event.target === addUrlModal) {
+        addUrlModal.style.display = 'none';
+      }
+    });
+
+    const addUrlForm = document.getElementById('addUrlForm');
+
+    addUrlForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const name = document.getElementById('name').value;
+      const url = document.getElementById('url').value;
+      const response = await fetch(`/api/ping?name=${encodeURIComponent(name)}&url=${encodeURIComponent(url)}`, { method: 'GET' });
+      const data = await response.json();
+      if (response.ok) {
+        showModal('Success', data.message, 'modal-ok');
+      } else {
+        showModal('Error', data.error, 'modal-error');
+      }
+    });
+
+    function showModal(title, message, buttonClass) {
+  modalMessage.textContent = message;
+  modalMessage.className = `modal-message ${buttonClass === 'modal-ok' ? 'success' : 'error'}`;
+  modalOkButton.className = buttonClass;
+  addUrlModal.style.display = 'flex';
+}
+
+    modalCloseButton.addEventListener('click', () => {
+      addUrlModal.style.display = 'none';
+    });
+    
+    particlesJS("particles-js", {
+    "particles": {
+      "number": {
+        "value": 30,
+        "density": {
+          "enable": true,
+          "value_area": 800
+        }
+      },
+      "color": {
+        "value": "#61dafb"
+      },
+      "shape": {
+        "type": "circle",
+        "stroke": {
+          "width": 0,
+          "color": "#61dafb"
+        },
+        "polygon": {
+          "nb_sides": 5
+        }
+      },
+      "opacity": {
+        "value": 0.5,
+        "random": false,
+        "anim": {
+          "enable": false,
+          "speed": 1,
+          "opacity_min": 0.1,
+          "sync": false
+        }
+      },
+      "size": {
+        "value": 3,
+        "random": true,
+        "anim": {
+          "enable": false,
+          "speed": 3,
+          "size_min": 0.1,
+          "sync": false
+        }
+      },
+      "line_linked": {
+        "enable": true,
+        "distance": 150,
+        "color": "#61dafb",
+        "opacity": 0.4,
+        "width": 1
+      },
+      "move": {
+        "enable": true,
+        "speed": 2,
+        "direction": "none",
+        "random": false,
+        "straight": false,
+        "out_mode": "out",
+        "bounce": false,
+        "attract": {
+          "enable": false,
+          "rotateX": 600,
+          "rotateY": 1200
+        }
+      }
+    },
+    "interactivity": {
+      "detect_on": "canvas",
+      "events": {
+        "onhover": {
+          "enable": true,
+          "mode": "repulse"
+        },
+        "onclick": {
+          "enable": true,
+          "mode": "push"
+        },
+        "resize": true
+      },
+      "modes": {
+        "grab": {
+          "distance": 400,
+          "line_linked": {
+            "opacity": 1
+          }
+        },
+        "bubble": {
+          "distance": 400,
+          "size": 30,
+          "duration": 2,
+          "opacity": 8,
+          "speed": 3
+        },
+        "repulse": {
+          "distance": 200,
+          "duration": 0.4
+        },
+        "push": {
+          "particles_nb": 4
+        },
+        "remove": {
+          "particles_nb": 2
+        }
+      }
+    }
+  });
+  </script>
+</body>
+</html>

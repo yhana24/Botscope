@@ -1,0 +1,20 @@
+{
+  "name": "botscopev2",
+  "version": "1.0.0",
+  "description": "A web-based bot performance monitoring tool that periodically checks the status of URLs, tracks uptime, and responds to availability. Built with Koa and axios.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "Jay Patrick Cano po",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.21.4",
+    "ejs": "^3.1.6",
+    "koa": "^2.13.1",
+    "koa-bodyparser": "^4.4.1",
+    "koa-json": "^2.0.2",
+    "koa-router": "^10.0.0",
+    "moment-timezone": "^0.5.34"
+  }
+}
